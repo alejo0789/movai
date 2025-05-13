@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Shield, Car, Cpu, BarChart3, Lock, Globe } from 'lucide-react';
+import { ChevronDown, Shield, Car, Cpu, BarChart3, Lock, Globe, Check } from 'lucide-react';
 
-// Componente principal de la landing page
-const MovAILanding = () => {
+const MovAIEnhancedLanding = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [email, setEmail] = useState('');
@@ -10,7 +9,6 @@ const MovAILanding = () => {
   // Efecto para capturar el scroll y aplicar animaciones
   useEffect(() => {
     const handleScroll = () => {
-      // Usar requestAnimationFrame para suavizar la actualización del estado
       requestAnimationFrame(() => {
         setScrollY(window.scrollY);
       });
@@ -20,7 +18,7 @@ const MovAILanding = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Función para cambiar la opacidad basada en la posición de scroll - con transición más suave
+  // Función para cambiar la opacidad basada en la posición de scroll
   const getOpacity = (startFade, endFade) => {
     if (scrollY < startFade) return 1;
     if (scrollY > endFade) return 0;
@@ -86,17 +84,33 @@ const MovAILanding = () => {
         )}
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section con Imagen 1 (Bus Futurista) */}
       <section className="min-h-screen flex items-center relative">
+        <div className="absolute inset-0 z-0">
+          <div className="relative w-full h-full">
+            {/* Imagen del bus futurista como fondo */}
+            <div className="absolute inset-0 bg-black">
+              <div className="w-full h-full opacity-70 bg-gradient-to-r from-black via-transparent to-black" 
+                   style={{
+                     backgroundImage: 'url("/images/futuristic-bus.jpg")',
+                     backgroundPosition: 'center',
+                     backgroundSize: 'cover',
+                     backgroundRepeat: 'no-repeat'
+                   }}>
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+          </div>
+        </div>
+
         <div 
-          className="container mx-auto px-4 py-20 flex flex-col items-center text-center"
+          className="container mx-auto px-4 py-20 flex flex-col items-center text-center relative z-10"
           style={{ opacity: getOpacity(0, 300) }}
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            <AnimatedText text="El Futuro de la Movilidad" />
-            <br />
+            <span className="block mb-2">El Futuro de la Movilidad</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-600 to-teal-400">
-              <AnimatedText text="Impulsado por IA" delay={1000} />
+              Impulsado por IA
             </span>
           </h1>
           
@@ -120,8 +134,74 @@ const MovAILanding = () => {
         </div>
       </section>
 
+      {/* Sección Tecnología con Imagen 3 (Detección facial) */}
+      <section className="min-h-screen py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
+              Nuestra Tecnología
+            </span>
+          </h2>
+          
+          <div className="flex flex-col md:flex-row items-center">
+            <div className="w-full md:w-1/2 mb-10 md:mb-0">
+              {/* Contenedor para la imagen del conductor con detección facial */}
+              <div className="relative rounded-2xl overflow-hidden border border-blue-500/30 shadow-lg shadow-blue-500/10">
+                {/* En producción, esta sería la imagen real */}
+                <div className="w-full h-96 bg-gray-900 rounded-xl"><img src="/images/facial-tracking.jpg" alt="Detección facial" className="w-full h-full object-cover" /></div>
+                
+                {/* Overlay con efecto de gradiente */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                
+                {/* Indicadores y elementos UI */}
+                <div className="absolute top-4 right-4">
+                  <div className="px-3 py-1 bg-teal-500/20 border border-teal-500/40 rounded-md text-teal-400 text-xs font-mono">
+                    Detección Activa
+                  </div>
+                </div>
+                
+                <div className="absolute bottom-4 left-4 right-4 h-20 bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-lg p-3">
+                  <div className="flex items-center mb-2">
+                    <div className="w-3 h-3 bg-teal-500 rounded-full animate-pulse mr-2"></div>
+                    <div className="text-sm text-teal-400 font-medium">Estado: Alerta Normal</div>
+                  </div>
+                  <div className="h-2 w-4/5 bg-gradient-to-r from-green-500 to-yellow-500 rounded-full mb-2"></div>
+                  <div className="flex justify-between text-xs text-gray-400">
+                    <span>Nivel de fatiga: 32%</span>
+                    <span>Precisión: 94%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="w-full md:w-1/2 md:pl-12">
+              <h3 className="text-2xl font-bold mb-6 text-blue-400">Tecnología MovAI</h3>
+              <p className="text-gray-300 mb-6">
+                Nuestra plataforma integra visión computacional avanzada y procesamiento en el borde para monitorear 
+                conductores en tiempo real, con tecnología que funciona 24/7 y una precisión superior al 85%.
+              </p>
+              
+              <ul className="space-y-4">
+                <TechItem title="Redes Neuronales" percentage={90} />
+                <TechItem title="Visión Computacional" percentage={85} />
+                <TechItem title="Procesamiento de Lenguaje Natural" percentage={80} />
+                <TechItem title="Aprendizaje por Refuerzo" percentage={75} />
+              </ul>
+              
+              <div className="mt-8">
+                <button className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:-translate-y-1">
+                  Conocer más
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Sección Características */}
-      <section className="min-h-screen py-20 relative">
+      <section className="py-20 relative">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
@@ -169,35 +249,47 @@ const MovAILanding = () => {
         </div>
       </section>
 
-      {/* Sección Tecnología */}
-      <section className="min-h-screen py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent"></div>
-        
+      {/* Sección Detección de Carril con Imagen 2 */}
+      <section className="py-20 relative overflow-hidden bg-gradient-to-b from-black via-blue-900/10 to-black">
         <div className="container mx-auto px-4 relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
-              Nuestra Tecnología
-            </span>
-          </h2>
-          
           <div className="flex flex-col md:flex-row items-center">
-            <div className="w-full md:w-1/2 mb-10 md:mb-0">
-              <TechnologyAnimation />
-            </div>
-            
-            <div className="w-full md:w-1/2 md:pl-12">
-              <h3 className="text-2xl font-bold mb-6 text-blue-400">Tecnología MovAI</h3>
-              <p className="text-gray-300 mb-6">
-                Nuestra plataforma integra visión computacional avanzada y procesamiento en el borde para monitorear 
-                conductores en tiempo real, con tecnología que funciona 24/7 y una precisión superior al 85%.
+            <div className="w-full md:w-1/2 md:pr-12 mb-10 md:mb-0 order-2 md:order-1">
+              <h3 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
+                Detección Inteligente de Carril
+              </h3>
+              
+              <p className="text-gray-300 mb-8">
+                Nuestra tecnología de visión artificial analiza constantemente la posición del vehículo 
+                en la carretera, detectando desviaciones y alertando al conductor en tiempo real para 
+                prevenir accidentes por salida de carril.
               </p>
               
-              <ul className="space-y-4">
-                <TechItem title="Redes Neuronales" percentage={90} />
-                <TechItem title="Visión Computacional" percentage={85} />
-                <TechItem title="Procesamiento de Lenguaje Natural" percentage={80} />
-                <TechItem title="Aprendizaje por Refuerzo" percentage={75} />
+              <ul className="space-y-4 mb-8">
+                <BenefitItem text="Monitoreo constante de la posición en el carril" />
+                <BenefitItem text="Alertas visuales y sonoras al detectar desviación" />
+                <BenefitItem text="Funciona en condiciones de baja visibilidad" />
+                <BenefitItem text="Integración con sistemas de asistencia a la conducción" />
               </ul>
+              
+              <button className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:-translate-y-1">
+                Ver demostración
+              </button>
+            </div>
+            
+            <div className="w-full md:w-1/2 order-1 md:order-2">
+              {/* Contenedor para la imagen de detección de carril */}
+              <div className="relative rounded-2xl overflow-hidden border border-blue-500/30 shadow-lg shadow-blue-500/10">
+                {/* En producción, esta sería la imagen real */}
+                <div className="w-full h-90 md:h-96 bg-gray-900 rounded-xl"> <img src="/images/lane-detection.jpg" alt="Detección de carril" className="w-full h-full object-cover" /></div>
+                
+                {/* Overlay y elementos UI */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-teal-400 text-sm font-semibold px-4 py-2 rounded-full bg-teal-900/30 border border-teal-500/30">
+                    Sistema activo: Carril detectado
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -215,7 +307,7 @@ const MovAILanding = () => {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                          <UseCaseCard 
+            <UseCaseCard 
               number="01"
               title="Empresas de Transporte"
               description="Monitoreo de conductores en tiempo real, reduciendo incidentes por fatiga y mejorando la seguridad de pasajeros y carga."
@@ -339,26 +431,6 @@ const FooterLink = ({ text }) => {
   );
 };
 
-const AnimatedText = ({ text, delay = 0 }) => {
-  const [displayText, setDisplayText] = useState('');
-  
-  useEffect(() => {
-    let currentIndex = 0;
-    const interval = setInterval(() => {
-      if (currentIndex <= text.length) {
-        setDisplayText(text.substring(0, currentIndex));
-        currentIndex++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 50);
-    
-    return () => clearInterval(interval);
-  }, [text]);
-  
-  return <span>{displayText}</span>;
-};
-
 const FeatureCard = ({ icon, title, description }) => {
   return (
     <div className="bg-gray-900 bg-opacity-50 backdrop-blur-sm rounded-xl p-6 border border-gray-800 hover:border-blue-500/30 transition-all duration-500 hover:shadow-lg hover:shadow-blue-500/10 group">
@@ -381,6 +453,17 @@ const UseCaseCard = ({ number, title, description }) => {
           <p className="text-gray-400">{description}</p>
         </div>
       </div>
+    </div>
+  );
+};
+
+const BenefitItem = ({ text }) => {
+  return (
+    <div className="flex items-start">
+      <div className="mt-1 mr-3 p-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-600">
+        <Check className="w-3 h-3 text-white" />
+      </div>
+      <p className="text-gray-300">{text}</p>
     </div>
   );
 };
@@ -409,7 +492,7 @@ const ParticleBackground = () => {
     y: Math.random() * 100,
     size: Math.random() * 4 + 1.5,
     opacity: Math.random() * 0.6 + 0.2,
-    speed: Math.random() * 0.3 + 0.8 // Velocidades más consistentes y lentas
+    speed: Math.random() * 0.3 + 0.8
   }));
 
   return (
@@ -425,7 +508,7 @@ const ParticleBackground = () => {
             height: `${particle.size}px`,
             opacity: particle.opacity,
             boxShadow: `0 0 ${particle.size * 2.5}px ${particle.size}px rgba(59, 130, 246, 0.6)`,
-            animation: `floatParticle ${25 + (particle.size * 5)}s infinite ease-in-out` // Animación más lenta y suave
+            animation: `floatParticle ${25 + (particle.size * 5)}s infinite ease-in-out`
           }}
         />
       ))}
@@ -452,84 +535,4 @@ const ParticleBackground = () => {
   );
 };
 
-const TechnologyAnimation = () => {
-  return (
-    <div className="relative h-80 w-full rounded-2xl bg-gradient-to-br from-gray-900 to-black border border-gray-800 overflow-hidden">
-      {/* Simulación de la malla de reconocimiento facial */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-48 h-48 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 flex items-center justify-center">
-          {/* Simular puntos de detección facial */}
-          <div className="w-40 h-40 relative">
-            {Array(30).fill().map((_, i) => {
-              const angle = Math.random() * Math.PI * 2;
-              const radius = Math.random() * 20;
-              const left = 50 + Math.cos(angle) * radius;
-              const top = 50 + Math.sin(angle) * radius;
-              
-              return (
-                <div 
-                  key={i} 
-                  className="absolute w-1.5 h-1.5 bg-teal-400 rounded-full"
-                  style={{ 
-                    left: `${left}%`, 
-                    top: `${top}%`,
-                    opacity: 0.8,
-                    boxShadow: '0 0 5px rgba(45, 212, 191, 0.7)'
-                  }}
-                ></div>
-              );
-            })}
-            
-            {/* Líneas de conexión */}
-            {Array(20).fill().map((_, i) => {
-              const startAngle = Math.random() * Math.PI * 2;
-              const endAngle = Math.random() * Math.PI * 2;
-              const startRadius = Math.random() * 20;
-              const endRadius = Math.random() * 20;
-              
-              const x1 = 50 + Math.cos(startAngle) * startRadius;
-              const y1 = 50 + Math.sin(startAngle) * startRadius;
-              const x2 = 50 + Math.cos(endAngle) * endRadius;
-              const y2 = 50 + Math.sin(endAngle) * endRadius;
-              
-              return (
-                <div 
-                  key={i}
-                  className="absolute h-px bg-teal-400/30"
-                  style={{
-                    width: `${Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))}%`,
-                    left: `${x1}%`,
-                    top: `${y1}%`,
-                    transform: `rotate(${Math.atan2(y2 - y1, x2 - x1)}rad)`,
-                    transformOrigin: 'left center',
-                    opacity: 0.6
-                  }}
-                ></div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-      
-      <div className="absolute top-4 right-4">
-        <div className="px-3 py-1 bg-teal-500/20 border border-teal-500/40 rounded-md text-teal-400 text-xs font-mono">
-          Detección Activa
-        </div>
-      </div>
-      
-      <div className="absolute bottom-4 left-4 right-4 h-20 bg-gray-900 bg-opacity-90 rounded-lg p-3">
-        <div className="flex items-center mb-2">
-          <div className="w-3 h-3 bg-teal-500 rounded-full animate-pulse mr-2"></div>
-          <div className="text-sm text-teal-400 font-medium">Estado: Alerta</div>
-        </div>
-        <div className="h-2 w-4/5 bg-gradient-to-r from-green-500 to-yellow-500 rounded-full mb-2"></div>
-        <div className="flex justify-between text-xs text-gray-400">
-          <span>Nivel de fatiga: 32%</span>
-          <span>Precisión: 94%</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default MovAILanding;
+export default MovAIEnhancedLanding;
